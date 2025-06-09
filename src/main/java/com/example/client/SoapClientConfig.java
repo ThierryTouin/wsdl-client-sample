@@ -9,32 +9,21 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 @Configuration
-public class SoapClientConfig {
-
-    /* 
-    @Bean
-    public WebServiceTemplate webServiceTemplate() {
-        WebServiceTemplate template = new WebServiceTemplate();
-        template.setMessageSender(new HttpComponentsMessageSender());
-        return template;
-    }
-    */
+public class SoapConfig {
 
     @Bean
-    public SaajSoapMessageFactory messageFactory() throws SOAPException {
-        SaajSoapMessageFactory factory = new SaajSoapMessageFactory(
-            MessageFactory.newInstance()
-        );
-        factory.afterPropertiesSet();
-        return factory;
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("com.example.wsdl");
+        return marshaller;
     }
 
     @Bean
-    public WebServiceTemplate webServiceTemplate(SaajSoapMessageFactory messageFactory) {
-        WebServiceTemplate template = new WebServiceTemplate(messageFactory);
-        template.setDefaultUri("https://www.dataaccess.com/webservicesserver/numberconversion.wso");
-        return template;
+    public SoapClient soapClient(Jaxb2Marshaller marshaller) {
+        SoapClient client = new SoapClient();
+        client.setMarshaller(marshaller);
+        client.setUnmarshaller(marshaller);
+        client.setDefaultUri("http://example.com/soap-service");
+        return client;
     }
-
-
 }

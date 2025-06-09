@@ -9,27 +9,16 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 
 
 
-@Component
-public class NumberConversionClient extends WebServiceGatewaySupport {
+import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
+import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-
-    private final WebServiceTemplate webServiceTemplate;
-
-    @Autowired
-    public NumberConversionClient(WebServiceTemplate webServiceTemplate) {
-        this.webServiceTemplate = webServiceTemplate;
-    }
-
-    public String convertToWords(int number) {
-        NumberToWords request = new NumberToWords();
-        request.setUbiNum(java.math.BigInteger.valueOf(number));
-
-        NumberToWordsResponse response = (NumberToWordsResponse) getWebServiceTemplate()
-                .marshalSendAndReceive(
-                        "https://www.dataaccess.com/webservicesserver/numberconversion.wso",
-                        request,
-                        new SoapActionCallback("https://www.dataaccess.com/webservicesserver/NumberConversion.wso/NumberToWords"));
-
-        return response.getNumberToWordsResult();
+public class SoapClient extends WebServiceGatewaySupport {
+    
+    public Object callWebService(String url, String soapAction, Object request) {
+        return getWebServiceTemplate().marshalSendAndReceive(
+            url, 
+            request,
+            new SoapActionCallback(soapAction)
+        );
     }
 }
