@@ -1,29 +1,28 @@
 package com.example.client;
 
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ws.transport.http.HttpComponentsMessageSender;
-import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
 
 @Configuration
-public class SoapConfig {
+public class SoapClientConfig {
 
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("com.example.wsdl");
+        marshaller.setContextPath("com.example.client.wsdl");
         return marshaller;
     }
 
     @Bean
-    public SoapClient soapClient(Jaxb2Marshaller marshaller) {
-        SoapClient client = new SoapClient();
+    public NumberConversionClient soapClient(Jaxb2Marshaller marshaller) {
+        NumberConversionClient client = new NumberConversionClient();
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
-        client.setDefaultUri("http://example.com/soap-service");
+        client.setDefaultUri("https://www.dataaccess.com/webservicesserver/NumberConversion.wso");
         return client;
     }
 }
