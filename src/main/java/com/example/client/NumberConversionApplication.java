@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import com.example.client.number.NumberConversionClient;
 
 
 @SpringBootApplication
@@ -31,7 +31,8 @@ public class NumberConversionApplication implements CommandLineRunner {
         String response = numberConversionClient.numberToWord(
             "https://www.dataaccess.com/webservicesserver/NumberConversion.wso",
             "http://www.dataaccess.com/webservicesserver/NumberConversion.wso/NumberToWords",
-            convInt);
+            convInt,
+            null);
         System.err.println("\r\n>>>>>>>>>>>>>>" + response);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.client.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.io.StringWriter;
 
 public class SoapLogInterceptor implements ClientInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(SoapLogInterceptor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SoapLogInterceptor.class);
 
     private final Transformer transformer;
 
@@ -26,9 +26,9 @@ public class SoapLogInterceptor implements ClientInterceptor {
     @Override
     public boolean handleRequest(MessageContext messageContext) {
         try {
-            logger.info("SOAP Request:\n{}", extractMessage(messageContext.getRequest()));
+            LOGGER.info("SOAP Request:\n{}", extractMessage(messageContext.getRequest()));
         } catch (Exception e) {
-            logger.warn("Failed to log SOAP request", e);
+            LOGGER.warn("Failed to log SOAP request", e);
         }
         return true;
     }
@@ -36,9 +36,9 @@ public class SoapLogInterceptor implements ClientInterceptor {
     @Override
     public boolean handleResponse(MessageContext messageContext) {
         try {
-            logger.info("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
+            LOGGER.info("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
         } catch (Exception e) {
-            logger.warn("Failed to log SOAP response", e);
+            LOGGER.warn("Failed to log SOAP response", e);
         }
         return true;
     }
@@ -46,9 +46,9 @@ public class SoapLogInterceptor implements ClientInterceptor {
     @Override
     public boolean handleFault(MessageContext messageContext) {
         try {
-            logger.error("SOAP Fault:\n{}", extractMessage(messageContext.getResponse()));
+            LOGGER.error("SOAP Fault:\n{}", extractMessage(messageContext.getResponse()));
         } catch (Exception e) {
-            logger.warn("Failed to log SOAP fault", e);
+            LOGGER.warn("Failed to log SOAP fault", e);
         }
         return true;
     }
@@ -62,12 +62,12 @@ public class SoapLogInterceptor implements ClientInterceptor {
     @Override
     public void afterCompletion(MessageContext messageContext, Exception ex) throws WebServiceClientException {
         if (ex != null) {
-            logger.error("ex:\n{}", ex.getMessage());
+            LOGGER.error("ex:\n{}", ex.getMessage());
         }
         try {
-            logger.info("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
+            LOGGER.info("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
         } catch (Exception e) {
-            logger.warn("Failed to log SOAP response", e);
+            LOGGER.warn("Failed to log SOAP response", e);
         }
     }
 }
