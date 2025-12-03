@@ -1,0 +1,31 @@
+###
+POST http://www.dneonline.com/calculator.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/Add"
+
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <Add xmlns="http://tempuri.org/">
+      <intA>15</intA>
+      <intB>27</intB>
+    </Add>
+  </soap:Body>
+</soap:Envelope>
+
+###
+POST http://www.dneonline.com/calculator.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/Multiply"
+
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <Multiply xmlns="http://tempuri.org/">
+      <intA>6</intA>
+      <intB>7</intB>
+    </Multiply>
+  </soap:Body>
+</soap:Envelope>

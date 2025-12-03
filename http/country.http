@@ -1,0 +1,13 @@
+POST http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://www.oorsprong.org/websamples.countryinfo/CountryInfoService/FullCountryInfo"
+
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <FullCountryInfo xmlns="http://www.oorsprong.org/websamples.countryinfo">
+      <sCountryISOCode>FR</sCountryISOCode>
+    </FullCountryInfo>
+  </soap:Body>
+</soap:Envelope>
