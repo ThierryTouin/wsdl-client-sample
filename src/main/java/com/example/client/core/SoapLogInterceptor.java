@@ -18,6 +18,8 @@ public class SoapLogInterceptor implements ClientInterceptor {
 
     private final Transformer transformer;
 
+    private static final ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<>();
+
     public SoapLogInterceptor() throws Exception {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         this.transformer = transformerFactory.newTransformer();
@@ -25,8 +27,9 @@ public class SoapLogInterceptor implements ClientInterceptor {
 
     @Override
     public boolean handleRequest(MessageContext messageContext) {
+        startTimeThreadLocal.set(System.currentTimeMillis());
         try {
-            LOGGER.info("SOAP Request:\n{}", extractMessage(messageContext.getRequest()));
+            LOGGER.trace("SOAP Request:\n{}", extractMessage(messageContext.getRequest()));
         } catch (Exception e) {
             LOGGER.warn("Failed to log SOAP request", e);
         }
@@ -35,10 +38,17 @@ public class SoapLogInterceptor implements ClientInterceptor {
 
     @Override
     public boolean handleResponse(MessageContext messageContext) {
+        Long startTime = startTimeThreadLocal.get();
         try {
-            LOGGER.info("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
+            LOGGER.trace("SOAP Response:\n{}", extractMessage(messageContext.getResponse()));
         } catch (Exception e) {
             LOGGER.warn("Failed to log SOAP response", e);
+        } finally {
+            if (startTime != null) {
+                long endTime = System.currentTimeMillis();
+                LOGGER.debug("SOAP call duration: {} ms", (endTime - startTime));
+                startTimeThreadLocal.remove();
+            }
         }
         return true;
     }
